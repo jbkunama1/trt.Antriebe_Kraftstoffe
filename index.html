@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antriebe &amp; Kraftstoffe – Technik Kl. 8</title>
+  <meta name="description" content="Unterrichtseinheit zu Verbrennungsmotor und Elektroantrieb für Technik Klasse 8 (Sek I, BW)" />
+  <style>
+    /* ── Design Tokens ─────────────────────────────────────── */
+    :root {
+      --primary:    #1a73e8;
+      --primary-dk: #1255b8;
+      --accent:     #34a853;
+      --warn:       #ea4335;
+      --amber:      #fbbc04;
+      --surface:    #ffffff;
+      --bg:         #f0f4f8;
+      --text:       #1e2a3b;
+      --muted:      #5f6b7c;
+      --border:     #d1dbe8;
+      --radius:     14px;
+      --shadow:     0 4px 24px rgba(0,0,0,.10);
+      --transition: .25s ease;
+    }
+
+    /* ── Reset & Base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 1rem;
+    }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* ── Layout Helpers ────────────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    section { padding: 5rem 0; }
+    section:nth-child(even) { background: var(--surface); }
+
+    /* ── NAV ───────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .9rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--primary); text-decoration: none; }
+
+    /* ── HERO ──────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 50%, #1e5f8c 100%);
+      color: #fff;
+      padding: 6rem 1.5rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,.08)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-logo {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,.3);
+      margin: 0 auto 2rem;
+      box-shadow: 0 0 40px rgba(0,0,0,.4);
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.5px;
+      line-height: 1.2;
+      margin-bottom: .75rem;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      opacity: .8;
+      max-width: 620px;
+      margin: 0 auto 2.5rem;
+    }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+    .badge {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      padding: .25rem .85rem;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .3px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .75rem 1.75rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: .95rem;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(26,115,232,.4);
+    }
+    .btn-primary:hover {
+      background: var(--primary-dk);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(26,115,232,.5);
+      text-decoration: none;
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.3);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,.22);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* ── SECTION TITLES ────────────────────────────────────── */
+    .section-tag {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: .5rem;
+    }
+    .section-title {
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: .75rem;
+    }
+    .section-desc {
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 3rem;
+      font-size: 1.05rem;
+    }
+
+    /* ── INFO STRIP (Rahmen) ───────────────────────────────── */
+    .info-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+      background: var(--primary);
+      color: #fff;
+    }
+    .info-item {
+      text-align: center;
+      min-width: 140px;
+    }
+    .info-item .icon { font-size: 2rem; margin-bottom: .3rem; }
+    .info-item .label { font-size: .75rem; opacity: .75; text-transform: uppercase; letter-spacing: .8px; }
+    .info-item .value { font-size: 1.1rem; font-weight: 700; }
+
+    /* ── CARDS ─────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    section:nth-child(even) .card { background: var(--bg); }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 40px rgba(0,0,0,.14);
+    }
+    .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+      color: var(--text);
+    }
+    .card p {
+      color: var(--muted);
+      font-size: .93rem;
+      flex: 1;
+    }
+    .card-link {
+      margin-top: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .87rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .card-link::after { content: '→'; }
+
+    /* ── TIMELINE ──────────────────────────────────────────── */
+    .timeline { position: relative; padding-left: 2.5rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: .75rem;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-dot {
+      position: absolute;
+      left: -2.5rem;
+      top: .3rem;
+      width: 1.5rem; height: 1.5rem;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 3px solid var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem;
+      color: #fff;
+      font-weight: 700;
+    }
+    section:nth-child(even) .tl-dot { border-color: var(--surface); }
+    .tl-time {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: .2rem;
+    }
+    .tl-title { font-size: 1.05rem; font-weight: 700; margin-bottom: .35rem; }
+    .tl-desc { color: var(--muted); font-size: .92rem; }
+
+    /* ── COMPARE TABLE ─────────────────────────────────────── */
+    .table-wrap { overflow-x: auto; border-radius: var(--radius); box-shadow: var(--shadow); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .95rem;
+    }
+    thead { background: var(--primary); color: #fff; }
+    thead th { padding: 1rem 1.25rem; text-align: left; font-weight: 700; font-size: .9rem; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:nth-child(even) { background: #f5f8fc; }
+    tbody tr:last-child { border-bottom: none; }
+    td { padding: .9rem 1.25rem; vertical-align: top; }
+    td:first-child { font-weight: 600; width: 30%; }
+    .plus  { color: var(--accent); font-weight: 700; }
+    .minus { color: var(--warn);   font-weight: 700; }
+    .neu   { color: var(--amber);  font-weight: 700; }
+
+    /* ── WARNING BOX ───────────────────────────────────────── */
+    .warn-box {
+      background: #fff8e1;
+      border-left: 5px solid var(--amber);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .warn-box .wi { font-size: 1.6rem; flex-shrink: 0; }
+    .warn-box p { font-size: .93rem; color: #5a4300; margin: 0; }
+    .warn-box strong { color: #3a2a00; }
+
+    .danger-box {
+      background: #fff0f0;
+      border-left: 5px solid var(--warn);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .danger-box .wi { font-size: 1.6rem; flex-shrink: 0; }
+    .danger-box p { font-size: .93rem; color: #5a0000; margin: 0; }
+
+    /* ── STEPS (Experiment) ────────────────────────────────── */
+    .steps { list-style: none; counter-reset: step; }
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .steps li:last-child { border-bottom: none; }
+    .steps li::before {
+      content: counter(step);
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: .85rem;
+      min-width: 2rem; height: 2rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .steps li p { margin: 0; font-size: .95rem; }
+    .steps li strong { display: block; margin-bottom: .2rem; }
+
+    /* ── COMPETENCE PILLS ──────────────────────────────────── */
+    .pill-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .pill {
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 600;
+      border: 1.5px solid;
+    }
+    .pill-g  { background: #e6f4ea; color: #1e7e34; border-color: #34a853; }
+    .pill-m  { background: #e8f0fe; color: #1a56b0; border-color: #4285f4; }
+    .pill-e  { background: #fce8e6; color: #b31412; border-color: #ea4335; }
+
+    /* ── FILE LIST ─────────────────────────────────────────── */
+    .file-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .file-list li a {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: .93rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    }
+    section:nth-child(even) .file-list li a { background: var(--bg); }
+    .file-list li a:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 16px rgba(26,115,232,.15);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .file-icon { font-size: 1.4rem; }
+
+    /* ── FOOTER ────────────────────────────────────────────── */
+    footer {
+      background: #0d1b2a;
+      color: rgba(255,255,255,.6);
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      font-size: .88rem;
+    }
+    footer a { color: rgba(255,255,255,.8); }
+    footer a:hover { color: #fff; }
+    .footer-brand { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: .5rem; }
+
+    /* ── RESPONSIVE ────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav-links { gap: .75rem; }
+      section { padding: 3.5rem 0; }
+      .timeline { padding-left: 2rem; }
+      .tl-dot { left: -2rem; }
+    }
+
+    /* ── FADE-IN ANIMATION ─────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero > * { animation: fadeUp .6s ease both; }
+    .hero-logo   { animation-delay: .05s; }
+    .hero h1     { animation-delay: .15s; }
+    .hero-sub    { animation-delay: .25s; }
+    .badge-row   { animation-delay: .35s; }
+    .hero-cta    { animation-delay: .45s; }
+  </style>
+</head>
+<body>
+
+<!-- ══ Navigation ═══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">🚗⚡ Antriebe &amp; Kraftstoffe</span>
+    <ul class="nav-links">
+      <li><a href="#ueberblick">Überblick</a></li>
+      <li><a href="#ablauf">Ablauf</a></li>
+      <li><a href="#materialien">Materialien</a></li>
+      <li><a href="#vergleich">Vergleich</a></li>
+      <li><a href="#experiment">Experiment</a></li>
+      <li><a href="#dateien">Dateien</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ══ Hero ═════════════════════════════════════════════════ -->
+<header class="hero">
+  <img src="Logo.jpeg" alt="Antriebe und Kraftstoffe Logo" class="hero-logo" />
+  <h1>Antriebe &amp; Kraftstoffe</h1>
+  <p class="hero-sub">Unterrichtseinheit für <strong>Technik Klasse 8</strong> (Sek I, BW) –
+    Verbrennungsmotor und Elektroantrieb im Vergleich</p>
+  <div class="badge-row">
+    <span class="badge">#Technik</span>
+    <span class="badge">#Klasse8</span>
+    <span class="badge">#Antriebe</span>
+    <span class="badge">#Kraftstoffe</span>
+    <span class="badge">#Verbrennungsmotor</span>
+    <span class="badge">#Elektromobilität</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#materialien" class="btn btn-primary">📄 Zu den Materialien</a>
+    <a href="https://github.com/jbkunama1/trt.Antriebe_Kraftstoffe" class="btn btn-ghost" target="_blank" rel="noopener">
+      ⭐ GitHub-Repository
+    </a>
+  </div>
+</header>
+
+<!-- ══ Info Strip ════════════════════════════════════════════ -->
+<div class="info-strip">
+  <div class="info-item">
+    <div class="icon">📚</div>
+    <div class="value">Technik</div>
+    <div class="label">Fach</div>
+  </div>
+  <div class="info-item">
+    <div class="icon">🎓</div>
+    <div class="value">Klasse 8</div>
+    <div class="label">Jahrgangsstufe</div>
+  </div>
+  <div class="info-item">
+    <div class="icon">⏱️</div>
+    <div class="value">ca. 90 Min.</div>
+    <div class="label">Umfang</div>
+  </div>
+  <div class="info-item">
+    <div class="icon">📍</div>
+    <div class="value">Sek I, BW</div>
+    <div class="label">Schulform</div>
+  </div>
+  <div class="info-item">
+    <div class="icon">🗂️</div>
+    <div class="value">5 Dateien</div>
+    <div class="label">Materialien</div>
+  </div>
+</div>
+
+<!-- ══ Überblick ═════════════════════════════════════════════ -->
+<section id="ueberblick">
+  <div class="container">
+    <p class="section-tag">Überblick</p>
+    <h2 class="section-title">Was steckt in diesem Paket?</h2>
+    <p class="section-desc">Eine komplette Doppelstunde mit allen nötigen Materialien – vom Einstieg bis zur Bewertungsaufgabe.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🗺️</div>
+        <h3>Verlaufsplan</h3>
+        <p>Detaillierter Stundenplan für eine Doppelstunde (ca. 90 min) mit Phasenbeschreibungen, Sozialformen und Materialangaben.</p>
+        <a href="Verlaufsplan_Antriebe_Kl8.md" class="card-link">Verlaufsplan öffnen</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">⛓️</div>
+        <h3>AB 1 – Energieketten</h3>
+        <p>Schüler ordnen Energieketten für Fahrrad, Verbrennungsmotor und Elektroauto zu und erarbeiten Grundbegriffe.</p>
+        <a href="AB1_Energieketten.md" class="card-link">Arbeitsblatt öffnen</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔬</div>
+        <h3>AB 2 – Stationenarbeit</h3>
+        <p>Drei differenzierte Stationen: Verbrennungsmotor mit Lehrerexperiment, Elektroantrieb und Kriterienvergleich (G/M/E-Niveau).</p>
+        <a href="AB2_Stationen.md" class="card-link">Arbeitsblatt öffnen</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">✅</div>
+        <h3>AB 3 – Sicherung &amp; Reflexion</h3>
+        <p>Vergleichstabelle und kurzer Leistungsnachweis mit Begründungsaufgabe (geeignet als Kurztest).</p>
+        <a href="AB3_Vergleich_Reflexion.md" class="card-link">Arbeitsblatt öffnen</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧪</div>
+        <h3>Lehrerexperiment</h3>
+        <p>Vollständige Anleitung zur Isopropanol-Verbrennung im transparenten Kolbenmodell – mit Sicherheitshinweisen und Auswertungsleitfaden.</p>
+        <a href="Lehrerexperiment_Isopropanol.md" class="card-link">Anleitung öffnen</a>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔧</div>
+        <h3>Differenzierung</h3>
+        <p>Alle Aufgaben sind dreifach differenziert: G-Niveau (Lückentexte, Symbole), M-Niveau (vollständige Sätze), E-Niveau (Begründungen, Erweiterung).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Ablauf ════════════════════════════════════════════════ -->
+<section id="ablauf">
+  <div class="container">
+    <p class="section-tag">Unterrichtsablauf</p>
+    <h2 class="section-title">Die Doppelstunde auf einen Blick</h2>
+    <p class="section-desc">Fünf klar strukturierte Phasen – von der Aktivierung des Vorwissens bis zur individuellen Reflexion.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot">1</div>
+        <div class="tl-time">ca. 10 Min. · Plenum</div>
+        <div class="tl-title">🚀 Einstieg</div>
+        <div class="tl-desc">Bilder/Videos zu Verbrenner und Elektroauto, Brainstorming „Antriebe/Kraftstoffe" an der Tafel. Vorwissen aktivieren, Begriffe sammeln.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">2</div>
+        <div class="tl-time">ca. 10 Min. · Plenum</div>
+        <div class="tl-title">📖 Input – Energieketten</div>
+        <div class="tl-desc">Einführung des Begriffs „Energiekette" an einfachen Beispielen (Fahrrad, Auto, Elektroauto). Kurze Sicherung mit AB 1.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">3</div>
+        <div class="tl-time">40–45 Min. · Gruppen</div>
+        <div class="tl-title">🔬 Stationenarbeit</div>
+        <div class="tl-desc">
+          <strong>Station 1</strong> – Verbrennungsmotor &amp; Lehrerexperiment (Isopropanol-Kolbenmodell)<br>
+          <strong>Station 2</strong> – Elektroantrieb (DC-Motor mit Batterie)<br>
+          <strong>Station 3</strong> – Kriterienvergleich &amp; Bewertung (Tabelle)
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">4</div>
+        <div class="tl-time">ca. 15 Min. · Plenum</div>
+        <div class="tl-title">📊 Sicherung</div>
+        <div class="tl-desc">Gemeinsamer Tafelvergleich, Ergebnisse der Stationen zusammentragen. Schüler übertragen Stichworte in AB 3, Teil A.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">5</div>
+        <div class="tl-time">ca. 10 Min. · Einzelarbeit</div>
+        <div class="tl-title">✍️ Reflexion &amp; Kurztest</div>
+        <div class="tl-desc">Kurze schriftliche Vergleichs- und Bewertungsaufgabe. Eignet sich als kleiner Leistungsnachweis (Kurzarbeit / Lernstandserhebung).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Kompetenzen ═══════════════════════════════════════════ -->
+<section id="kompetenzen">
+  <div class="container">
+    <p class="section-tag">Kompetenzen &amp; Didaktik</p>
+    <h2 class="section-title">Was lernen die Schülerinnen und Schüler?</h2>
+    <p class="section-desc">Orientiert am Bildungsplan 2016 Technik, Sek I BW.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>Sachkompetenz nach Niveau</h3>
+        <div class="pill-row" style="margin-bottom:.85rem;">
+          <span class="pill pill-g">G-Niveau</span>
+          <span class="pill pill-m">M-Niveau</span>
+          <span class="pill pill-e">E-Niveau</span>
+        </div>
+        <p>
+          <strong class="pill-g" style="background:none;border:none;padding:0;font-size:.9rem;">G:</strong> Ein Antriebssystem beschreiben.<br>
+          <strong class="pill-m" style="background:none;border:none;padding:0;font-size:.9rem;">M:</strong> Beide Antriebe beschreiben.<br>
+          <strong class="pill-e" style="background:none;border:none;padding:0;font-size:.9rem;">E:</strong> Vor- und Nachteile darstellen und erläutern.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <h3>Prozess­kompetenz</h3>
+        <p>Informationen aus Texten und Schaubildern entnehmen, Energieketten darstellen, technische Systeme nach Kriterien vergleichen und strukturiert dokumentieren.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌱</div>
+        <h3>Bewertungs­kompetenz</h3>
+        <p>Antriebssysteme nach Wirkungsgrad, Umweltbelastung, Lärm und Reichweite bewerten und für konkrete Einsatzgebiete begründet empfehlen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Vergleich ════════════════════════════════════════════ -->
+<section id="vergleich">
+  <div class="container">
+    <p class="section-tag">Vergleich</p>
+    <h2 class="section-title">Verbrennungsmotor vs. Elektroantrieb</h2>
+    <p class="section-desc">Übersicht der wichtigsten Kriterien – Grundlage für die Tabellenarbeit in AB 2 und AB 3.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Kriterium</th>
+            <th>🔥 Verbrennungsmotor</th>
+            <th>⚡ Elektroantrieb</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Energiequelle</td>
+            <td>Kraftstoff (Benzin, Diesel, Gas)</td>
+            <td>Elektrischer Strom (Akku / Ladestation)</td>
+          </tr>
+          <tr>
+            <td>Wirkungsgrad</td>
+            <td><span class="minus">–</span> ca. 20–40 %</td>
+            <td><span class="plus">+</span> ca. 80–90 %</td>
+          </tr>
+          <tr>
+            <td>Abgase im Betrieb</td>
+            <td><span class="minus">–</span> CO₂, NOₓ, Feinstaub</td>
+            <td><span class="plus">+</span> keine lokalen Emissionen</td>
+          </tr>
+          <tr>
+            <td>Lärm</td>
+            <td><span class="minus">–</span> laut (Motor, Abgasanlage)</td>
+            <td><span class="plus">+</span> sehr leise</td>
+          </tr>
+          <tr>
+            <td>Reichweite</td>
+            <td><span class="plus">+</span> 500–800 km pro Tankfüllung</td>
+            <td><span class="neu">0</span> 200–500 km pro Ladung</td>
+          </tr>
+          <tr>
+            <td>Tank- / Ladezeit</td>
+            <td><span class="plus">+</span> 3–5 Minuten tanken</td>
+            <td><span class="minus">–</span> 20 Min.–mehrere Stunden laden</td>
+          </tr>
+          <tr>
+            <td>Wartungsaufwand</td>
+            <td><span class="minus">–</span> hoch (Ölwechsel, Zahnriemen …)</td>
+            <td><span class="plus">+</span> gering (weniger bewegliche Teile)</td>
+          </tr>
+          <tr>
+            <td>Infrastruktur</td>
+            <td><span class="plus">+</span> flächendeckendes Tankstellennetz</td>
+            <td><span class="neu">0</span> Ladenetz wächst</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Experiment ════════════════════════════════════════════ -->
+<section id="experiment">
+  <div class="container">
+    <p class="section-tag">Lehrerexperiment</p>
+    <h2 class="section-title">Isopropanol-Verbrennung im Kolbenmodell</h2>
+    <p class="section-desc">Nur Demonstrationsversuch durch die Lehrkraft – kein Schülerexperiment!</p>
+
+    <div class="danger-box">
+      <span class="wi">🚨</span>
+      <p><strong>Ausschließlich Lehrerversuch!</strong> Schülerinnen und Schüler bleiben auf ihren Plätzen. Schutzbrille tragen, Feuerlöscher bereithalten, Versuch in der Gefährdungsbeurteilung dokumentieren.</p>
+    </div>
+    <div class="warn-box">
+      <span class="wi">⚠️</span>
+      <p><strong>Hinweis:</strong> Nur 2–3 Tropfen Isopropanol – kein Flüssigkeitsspiegel. Transparenter Kunststoffzylinder (kein Metallrohr, kein Projektil). Durchführung idealerweise im Abzug oder hinter Plexiglas-Schutzscheibe.</p>
+    </div>
+
+    <div class="card-grid" style="margin-bottom:2.5rem;">
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Lernziel des Versuchs</h3>
+        <p>Schüler erleben die explosionsartige Verbrennung eines Brennstoff-Luft-Gemischs und erkennen: Chemische Energie des Kraftstoffs wird über Gasexpansion in mechanische Arbeit am Kolben umgewandelt.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔩</div>
+        <h3>Benötigte Materialien</h3>
+        <p>Transparenter Acrylzylinder (Ø 30–40 mm, L 20 cm), leichter Kolben mit O-Ring, Piezo-Zünder (Grillanzünder), Isopropanol in Tropfpipette, feuerfeste Unterlage, Plexiglas-Schutzscheibe, Schutzbrille.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:1rem;">Durchführung Schritt für Schritt</h3>
+    <ol class="steps">
+      <li>
+        <p><strong>Zylinder vorbereiten</strong>
+        2–3 Tropfen Isopropanol in den Zylinder geben, vorsichtig schwenken, überschüssige Flüssigkeit ablaufen lassen. Nur ein dünner Dampf-Film bleibt zurück.</p>
+      </li>
+      <li>
+        <p><strong>Kolben einsetzen</strong>
+        Kolben mit O-Ring von oben einführen, sodass er einige Zentimeter im Zylinder sitzt. Führungsstange zeigt nach außen.</p>
+      </li>
+      <li>
+        <p><strong>Sicherheitsposition einnehmen</strong>
+        Zylinder auf feuerfeste Unterlage stellen, Plexiglas-Schutzscheibe aufstellen. Klasse sitzt auf ihren Plätzen.</p>
+      </li>
+      <li>
+        <p><strong>Zündung</strong>
+        Piezo-Zünder auslösen → kurzer Knall („Puff"), der Kolben bewegt sich aus dem Zylinder heraus.</p>
+      </li>
+      <li>
+        <p><strong>Nachbereitung</strong>
+        Zylinder öffnen und auslüften lassen. Versuch nicht mehrfach direkt hintereinander wiederholen.</p>
+      </li>
+    </ol>
+
+    <div style="margin-top:2rem; padding:1.25rem 1.5rem; background:var(--bg); border-radius:var(--radius); border:1px solid var(--border);">
+      <p style="font-size:.9rem; font-weight:700; margin-bottom:.5rem; color:var(--primary);">⚗️ Energiekette des Versuchs</p>
+      <p style="font-size:1rem; color:var(--text);">
+        <strong>Chemische Energie</strong> (Isopropanol) →
+        <strong>Wärmeenergie</strong> (heiße Gase) →
+        <strong>Bewegungsenergie</strong> (Kolben) →
+        <strong>Bewegungsenergie der Räder</strong> (im echten Motor)
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Differenzierung ═══════════════════════════════════════ -->
+<section id="differenzierung">
+  <div class="container">
+    <p class="section-tag">Differenzierung</p>
+    <h2 class="section-title">Für jede Lerngruppe passend</h2>
+    <p class="section-desc">Alle Aufgaben lassen sich auf drei Niveaustufen einsetzen.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🟢</div>
+        <h3><span class="pill pill-g" style="margin-right:.5rem;">G-Niveau</span> Grundlegend</h3>
+        <p>Lückentexte, Bildfolgen (Viertakt), vorstrukturierte Energieketten, Bewertung mit Symbolen (+/–/0). Starke Unterstützung für Schüler mit Förderbedarf.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔵</div>
+        <h3><span class="pill pill-m" style="margin-right:.5rem;">M-Niveau</span> Mittleres</h3>
+        <p>Eigene Sätze, vollständige Tabellen, einfache Vergleichsaussagen formulieren. Entspricht dem Regelstandard für Klasse 8.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔴</div>
+        <h3><span class="pill pill-e" style="margin-right:.5rem;">E-Niveau</span> Erweitertes</h3>
+        <p>Zusätzliche Aspekte (Hybrid, Brennstoffzelle), ausführliche Begründungen, Empfehlung für ein konkretes Einsatzgebiet mit mindestens zwei Kriterien.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Dateien ════════════════════════════════════════════════ -->
+<section id="dateien">
+  <div class="container">
+    <p class="section-tag">Dateien</p>
+    <h2 class="section-title">Alle Materialien herunterladen</h2>
+    <p class="section-desc">Alle Dateien liegen als Markdown-Dokumente vor und können direkt bearbeitet und ausgedruckt werden.</p>
+
+    <ul class="file-list">
+      <li>
+        <a href="Verlaufsplan_Antriebe_Kl8.md">
+          <span class="file-icon">🗺️</span>
+          Verlaufsplan
+        </a>
+      </li>
+      <li>
+        <a href="Lehrerexperiment_Isopropanol.md">
+          <span class="file-icon">🧪</span>
+          Lehrerexperiment
+        </a>
+      </li>
+      <li>
+        <a href="AB1_Energieketten.md">
+          <span class="file-icon">⛓️</span>
+          AB 1 – Energieketten
+        </a>
+      </li>
+      <li>
+        <a href="AB2_Stationen.md">
+          <span class="file-icon">🔬</span>
+          AB 2 – Stationen
+        </a>
+      </li>
+      <li>
+        <a href="AB3_Vergleich_Reflexion.md">
+          <span class="file-icon">✅</span>
+          AB 3 – Sicherung
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/jbkunama1/trt.Antriebe_Kraftstoffe" target="_blank" rel="noopener">
+          <span class="file-icon">📦</span>
+          GitHub Repository
+        </a>
+      </li>
+    </ul>
+
+    <div class="warn-box" style="margin-top:2.5rem;">
+      <span class="wi">💡</span>
+      <p><strong>Tipp:</strong> Lege dir für die Klasse einen eigenen Ordner (z. B. in Nextcloud, OneDrive oder GitHub) an und packe alle Dateien plus ggf. Präsentationsfolien hinein. Du kannst die Arbeitsblätter leicht um eigene Bilder, GIFs oder eine weitere Stunde zu <em>Hybrid- und Brennstoffzellenfahrzeugen</em> ergänzen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Footer ════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-brand">🚗⚡ Antriebe &amp; Kraftstoffe – Technik Kl. 8</div>
+  <p>Unterrichtseinheit für Sek I, Baden-Württemberg · BP 2016 Technik</p>
+  <p style="margin-top:.5rem;">
+    <a href="https://github.com/jbkunama1/trt.Antriebe_Kraftstoffe" target="_blank" rel="noopener">GitHub Repository</a>
+    &nbsp;·&nbsp;
+    <a href="LICENSE">Lizenz</a>
+  </p>
+</footer>
+
+</body>
+</html>
