@@ -2,6 +2,10 @@
 
 > Unterrichtseinheit zu Verbrennungsmotor & Elektroantrieb mit Lehrerexperiment (Isopropanol‑Verbrennung)
 
+<p align="center">
+  <img src="Logo.jpeg" alt="Antriebe und Kraftstoffe" width="300"/>
+</p>
+
 ---
 
 ## 🎯 Überblick
