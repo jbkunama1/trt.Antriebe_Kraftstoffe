@@ -1,5 +1,12 @@
 # 🚗⚡ Antriebe & Kraftstoffe – Technik Kl. 8
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Language: Deutsch](https://img.shields.io/badge/Sprache-Deutsch-blue.svg)](README.md)
+[![Fach: Technik](https://img.shields.io/badge/Fach-Technik-orange.svg)](README.md)
+[![Klasse: 8](https://img.shields.io/badge/Klasse-8-green.svg)](README.md)
+[![Schulform: Sek I BW](https://img.shields.io/badge/Schulform-Sek%20I%20BW-lightgrey.svg)](README.md)
+[![Thema: Antriebe & Kraftstoffe](https://img.shields.io/badge/Thema-Antriebe%20%26%20Kraftstoffe-red.svg)](README.md)
+
 > Unterrichtseinheit zu Verbrennungsmotor & Elektroantrieb mit Lehrerexperiment (Isopropanol‑Verbrennung)
 
 <p align="center">
