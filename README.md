@@ -6,7 +6,7 @@
 [![Klasse: 8](https://img.shields.io/badge/Klasse-8-green.svg)](README.md)
 [![Schulform: Sek I BW](https://img.shields.io/badge/Schulform-Sek%20I%20BW-lightgrey.svg)](README.md)
 [![Thema: Antriebe & Kraftstoffe](https://img.shields.io/badge/Thema-Antriebe%20%26%20Kraftstoffe-red.svg)](README.md)
-
+[![Buy me a coffee](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://www.buymeacoffee.com/highfish)
 > Unterrichtseinheit zu Verbrennungsmotor & Elektroantrieb mit Lehrerexperiment (Isopropanol‑Verbrennung)
 
 <p align="center">
